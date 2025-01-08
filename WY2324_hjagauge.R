@@ -5,9 +5,6 @@
 # note: WS1 rating curve is different from WS 3
 # Created 2025-01-08 JAK
 
-# 1. Discharge data
-
-# 2. Water chemistry
 
 library(ggplot2)
 library(tidyverse)
@@ -130,6 +127,18 @@ merged_discharge$Discharge_L_s <- merged_discharge$Discharge_cfs * 28.3168
 
 
 ### Plotting
+# Create a dataset with flagged discharge data
+flagged_discharge <- merged_discharge %>%
+  filter(!is.na(Flag_STAGE_INST_0_0_01))  # Keep rows where Flag_STAGE_INST_0_0_01 is not NA
+
+# Create a dataset with flagged EC data
+flagged_ec <- merged_discharge %>%
+  filter(!is.na(Flag_EC_INST_0_0_01))  # Keep rows where Flag_EC_INST_0_0_01 is not NA
+
+# Create a dataset with flagged temperature data
+flagged_temp <- merged_discharge %>%
+  filter(!is.na(Flag_WATERTEMP_MEAN_0_0_01))  # Keep rows where Flag_WATERTEMP_MEAN_0_0_01 is not NA
+
 # Save the plot to a high-quality PNG file
 png("flagged_data_plot.png", width = 1000, height = 1000, res = 150)  # Increased resolution for better quality
 
